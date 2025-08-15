@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tee Times – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PapaParse for CSV parsing -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
@@ -47,29 +48,22 @@
       Live schedule including starting hole and overall team handicap.
     </p>
 
-    <!-- Filters -->
-    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
-      <input id="search" type="text" placeholder="Search captain or time…"
-             class="flex-1 border rounded-lg px-3 py-2" aria-label="Search captain or time">
-      <select id="holeFilter" class="border rounded-lg px-3 py-2 w-full sm:w-48" aria-label="Filter by hole">
-        <option value="">All holes</option>
-        <option value="1">Starting on 1st</option>
-        <option value="10">Starting on 10th</option>
-      </select>
-    </div>
-
-    <div class="overflow-x-auto rounded-xl border">
+    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
       <table class="w-full text-sm text-left text-gray-700">
-        <thead class="bg-gray-100 text-xs uppercase tracking-wide">
+        <thead class="bg-gray-100 text-xs uppercase tracking-wide border-b border-gray-200">
           <tr>
-            <th class="px-4 py-3 border">Tee Time</th>
-            <th class="px-4 py-3 border">Hole</th>
-            <th class="px-4 py-3 border">Captain</th>
-            <th class="px-4 py-3 border">Team Handicap</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Tee Time</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Hole</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Captain</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3 text-center">Team Handicap</th>
           </tr>
         </thead>
-        <tbody id="tee-times-body">
-          <tr><td colspan="4" class="px-4 py-6 text-center">Loading tee times…</td></tr>
+        <tbody id="tee-times-body" class="divide-y divide-gray-100">
+          <tr>
+            <td colspan="4" class="px-4 py-6 text-center text-gray-500">
+              Loading tee times…
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -77,89 +71,67 @@
     <p id="last-updated" class="text-xs text-gray-500 mt-3 text-right"></p>
   </main>
 
-  <!-- PapaParse (CSV parser) -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <!-- Data loader -->
+  <script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
+    const tbody = document.getElementById('tee-times-body');
+    const lastUpdated = document.getElementById('last-updated');
 
-<script>
-  // Your published-to-web CSV URL:
-  const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
-
-  const tbody = document.getElementById('tee-times-body');
-  const statusEl = document.getElementById('status'); // optional
-  const searchInput = document.getElementById('search'); // optional
-  const holeFilter = document.getElementById('holeFilter'); // optional
-  const lastUpdated = document.getElementById('last-updated'); // optional
-
-  let rows = [];
-  let filtered = [];
-
-  const toMins = s => {
-    const m = String(s || '').match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-    if (!m) return 0;
-    let h = +m[1], mm = +m[2]; const ap = m[3].toUpperCase();
-    if (ap === 'PM' && h !== 12) h += 12;
-    if (ap === 'AM' && h === 12) h = 0;
-    return h * 60 + mm;
-  };
-
-  function render(data) {
-    tbody.innerHTML = '';
-    if (!data.length) {
-      tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No results.</td></tr>`;
-      return;
+    function toMins(s) {
+      const m = String(s || '').match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+      if (!m) return 0;
+      let h = +m[1], mm = +m[2]; const ap = m[3].toUpperCase();
+      if (ap === 'PM' && h !== 12) h += 12;
+      if (ap === 'AM' && h === 12) h = 0;
+      return h * 60 + mm;
     }
-    const frag = document.createDocumentFragment();
-    for (const r of data) {
-      const tr = document.createElement('tr');
-      tr.className = 'border-b hover:bg-gray-50';
-      tr.innerHTML = `
-        <td class="px-4 py-2 border">${r['Time'] || ''}</td>
-        <td class="px-4 py-2 border">${r['Hole'] || ''}</td>
-        <td class="px-4 py-2 border">${r['Player 1'] || ''}</td>  <!-- shown as Captain -->
-        <td class="px-4 py-2 border font-semibold">${r['Team Handicap'] || ''}</td>
-      `;
-      frag.appendChild(tr);
+
+    function holeBadge(hole) {
+      const base = "px-2 py-1 rounded-full text-xs font-semibold";
+      if (String(hole) === "1") {
+        return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
+      } else if (String(hole) === "10") {
+        return `<span class="${base} bg-blue-100 text-blue-800">Hole 10</span>`;
+      }
+      return hole || '';
     }
-    tbody.appendChild(frag);
-  }
 
-  function applyFilters() {
-    const q = (searchInput?.value || '').toLowerCase().trim();
-    const hole = holeFilter?.value || '';
-    filtered = rows.filter(r => {
-      const holeOk = !hole || String(r['Hole'] || '').trim() === hole;
-      if (!q) return holeOk;
-      const hay = `${r['Player 1'] || ''} ${r['Time'] || ''} ${r['Team Handicap'] || ''}`.toLowerCase();
-      return holeOk && hay.includes(q);
-    });
-    render(filtered);
-  }
+    function render(data) {
+      tbody.innerHTML = '';
+      if (!data.length) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No tee times found.</td></tr>`;
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      for (const r of data) {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${r['Time'] || ''}</td>
+          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${holeBadge(r['Hole'])}</td>
+          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r font-medium text-gray-900">${r['Player 1'] || ''}</td>
+          <td class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-green-700 text-center">${r['Team Handicap'] || ''}</td>
+        `;
+        frag.appendChild(tr);
+      }
+      tbody.appendChild(frag);
+    }
 
-  fetch(CSV_URL, { cache: 'no-store' })
-    .then(r => {
-      if (!r.ok) throw new Error('HTTP ' + r.status);
-      return r.text();
-    })
-    .then(text => {
-      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
-      rows = parsed.data || [];
+    fetch(CSV_URL, { cache: 'no-store' })
+      .then(r => r.text())
+      .then(csv => {
+        const parsed = Papa.parse(csv, { header: true });
+        let rows = parsed.data.filter(r => r['Time']);
+        rows.sort((a, b) => toMins(a['Time']) - toMins(b['Time']));
+        render(rows);
+        lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString();
+      })
+      .catch(err => {
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Failed to load data.</td></tr>`;
+      });
+  </script>
 
-      // Sort by Time (e.g., "9:10 AM")
-      rows.sort((a, b) => toMins(a['Time']) - toMins(b['Time']));
-
-      applyFilters();
-      if (statusEl) statusEl.textContent = `Loaded ${rows.length} rows.`;
-      if (lastUpdated) lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
-    })
-    .catch(err => {
-      console.error(err);
-      tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-600">Could not load tee times.</td></tr>`;
-      if (statusEl) statusEl.textContent = `Fetch failed: ${err.message}`;
-    });
-
-  // Hook up filters if present
-  if (searchInput) searchInput.addEventListener('input', applyFilters);
-  if (holeFilter) holeFilter.addEventListener('change', applyFilters);
-</script>
 </body>
 </html>
+
