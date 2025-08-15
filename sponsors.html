@@ -2,74 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sponsors – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white text-gray-800">
 
-  <!-- Header (same as other pages) -->
+  <!-- Header -->
   <header class="bg-white border-b sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    
-    <!-- Logo + Title -->
-    <a href="index.html" class="flex items-center space-x-3">
-      <img src="logo.png" alt="Golf Logo" class="h-24 w-auto" />
-      <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
-    </a>
-
-    <!-- Desktop Nav -->
-    <nav class="hidden md:flex space-x-6">
-      <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
-      <a href="sponsors.html" class="hover:text-green-700">Sponsors</a>
-      <a href="raffle.html" class="hover:text-green-700">Raffle</a>
-    </nav>
-
-    <!-- Mobile Toggle -->
-    <button id="menu-btn" class="md:hidden focus:outline-none">
-      <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Nav -->
-  <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
-    <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
-    <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
-    <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
-  </div>
-
-  <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  </script>
-</header>
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
+        <a href="sponsors.html" class="hover:text-green-700 font-semibold">Sponsors</a>
+        <a href="raffle.html" class="hover:text-green-700">Raffle</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none" aria-label="Open menu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+      <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
+      <a href="sponsors.html" class="block hover:text-green-700 font-semibold">Sponsors</a>
+      <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
+    </div>
+    <script>
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+    </script>
+  </header>
 
   <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-6">Our Sponsors</h1>
-    <p class="text-center text-lg mb-10 text-gray-700">
-      We are incredibly grateful to the generous businesses supporting this year’s Charity Golf Day.
-      Their involvement makes the event — and the impact — much greater.
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-center mb-8">Our Sponsors</h1>
+    <p class="text-center mb-12 text-gray-600">
+      A huge thank you to our amazing sponsors for helping make the Charity Golf Day possible.
     </p>
 
-    <!-- Logo Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8 items-center justify-center">
-      <img src="assets/sponsor1.png" alt="Sponsor 1" class="max-h-16 object-contain mx-auto" />
-      <img src="assets/sponsor2.png" alt="Sponsor 2" class="max-h-16 object-contain mx-auto" />
-      <img src="assets/sponsor3.png" alt="Sponsor 3" class="max-h-16 object-contain mx-auto" />
-      <img src="assets/sponsor4.png" alt="Sponsor 4" class="max-h-16 object-contain mx-auto" />
-      <!-- Add or duplicate more as needed -->
+    <!-- Sponsors Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Sean Kitwood Builders</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Premier Partnerships</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Marritt Electrical Ltd</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Alan Dowding Accountancy</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">The Bitters</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">DCD Plastering</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Party on a Platter by Elza</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Goole Cricket Club</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Helm &amp; Ransome Construction LTD</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Goole United</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">MKM Goole</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Keir Vause</span>
+      </div>
     </div>
-
-    <p class="mt-10 text-sm text-center text-gray-500">
-      Interested in sponsoring next year’s event? <a href="mailto:your@email.com" class="underline">Get in touch</a>.
-    </p>
   </main>
+
 </body>
 </html>
