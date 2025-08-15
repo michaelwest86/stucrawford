@@ -1,6 +1,6 @@
 // ---- CONFIG ----
 const SHEET_ID = '1tzYsidqOyoAhSh0HQ-gPQ3vGKA-DK-bt';
-const TAB_NAME = 'Handicaps'; // change if your sheet tab is named differently
+const TAB_NAME = 'websiteintegration'; // change if your sheet tab is named differently
 
 // Use OpenSheet by tab name (simpler than gid-based CSV)
 const URL = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(TAB_NAME)}`;
