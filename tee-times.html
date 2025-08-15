@@ -160,5 +160,57 @@
     holeFilter.addEventListener('change', applyFilters);
     loadCsv();
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+  // Replace with the exact Publish-to-web CSV link you copied:
+  const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
+
+  const tbody = document.getElementById('tee-times-body');
+  const statusBox = document.getElementById('status') || { textContent: '' };
+
+  fetch(CSV_URL, { cache: 'no-store' })
+    .then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(text => {
+      const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+      const rows = parsed.data;
+
+      // optional: sort by time like "9:10 AM"
+      const toMins = s => {
+        const m = String(s||'').match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+        if (!m) return 0;
+        let h=+m[1], mm=+m[2]; const ap=m[3].toUpperCase();
+        if (ap==='PM' && h!==12) h+=12;
+        if (ap==='AM' && h===12) h=0;
+        return h*60+mm;
+      };
+      rows.sort((a,b) => toMins(a['Time']) - toMins(b['Time']));
+
+      tbody.innerHTML = '';
+      if (!rows.length) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No rows found.</td></tr>`;
+        return;
+      }
+
+      for (const r of rows) {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2 border">${r['Time'] || ''}</td>
+          <td class="px-4 py-2 border">${r['Hole'] || ''}</td>
+          <td class="px-4 py-2 border">${r['Player 1'] || ''}</td> <!-- shown as Captain on your table header -->
+          <td class="px-4 py-2 border font-semibold">${r['Team Handicap'] || ''}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+
+      statusBox.textContent = `Loaded ${rows.length} rows from "websiteintegration".`;
+    })
+    .catch(err => {
+      console.error(err);
+      tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-600">Could not load tee times.</td></tr>`;
+      statusBox.textContent = `Fetch failed: ${err.message}.`;
 </body>
 </html>
