@@ -2,122 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tee Times – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
 
   <!-- Header -->
- <header class="bg-white border-b sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    
-    <!-- Logo + Title -->
-    <a href="index.html" class="flex items-center space-x-3">
-      <img src="logo.png" alt="Golf Logo" class="h-24 w-auto" />
-      <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
-    </a>
+  <header class="bg-white border-b sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="tee-times.html" class="hover:text-green-700 font-semibold">Tee Times</a>
+        <a href="sponsors.html" class="hover:text-green-700">Sponsors</a>
+        <a href="raffle.html" class="hover:text-green-700">Raffle</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none" aria-label="Open menu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+      <a href="tee-times.html" class="block hover:text-green-700 font-semibold">Tee Times</a>
+      <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
+      <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
+    </div>
+    <script>
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+    </script>
+  </header>
 
-    <!-- Desktop Nav -->
-    <nav class="hidden md:flex space-x-6">
-      <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
-      <a href="sponsors.html" class="hover:text-green-700">Sponsors</a>
-      <a href="raffle.html" class="hover:text-green-700">Raffle</a>
-    </nav>
-
-    <!-- Mobile Toggle -->
-    <button id="menu-btn" class="md:hidden focus:outline-none">
-      <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Nav -->
-  <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
-    <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
-    <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
-    <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
-  </div>
-
-  <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  </script>
-</header>
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Stu Crawford Invitational 2025</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      h1, h2 {
-        font-family: 'Playfair Display', serif;
-      }
-    </style>
-  </head>
-
-  <!-- Main Content -->
+  <!-- Main -->
   <main class="max-w-6xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-8">Tee Times</h1>
+    <h1 class="text-4xl font-bold text-center mb-2">Tee Times</h1>
     <p class="text-center mb-6 text-gray-600">
-      Here are the scheduled tee times for all teams, including starting hole and team handicap.
+      Live schedule including starting hole and overall team handicap.
     </p>
 
-    <div class="overflow-x-auto">
-      <table class="w-full text-sm text-left text-gray-700 border">
+    <!-- Filters -->
+    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
+      <input id="search" type="text" placeholder="Search captain or time…"
+             class="flex-1 border rounded-lg px-3 py-2" aria-label="Search captain or time">
+      <select id="holeFilter" class="border rounded-lg px-3 py-2 w-full sm:w-48" aria-label="Filter by hole">
+        <option value="">All holes</option>
+        <option value="1">Starting on 1st</option>
+        <option value="10">Starting on 10th</option>
+      </select>
+    </div>
+
+    <div class="overflow-x-auto rounded-xl border">
+      <table class="w-full text-sm text-left text-gray-700">
         <thead class="bg-gray-100 text-xs uppercase tracking-wide">
           <tr>
-            <th class="px-4 py-2 border">Tee time</th>
-            <th class="px-4 py-2 border">Starting hole</th>
-            <th class="px-4 py-2 border">Player 1</th>
-            <th class="px-4 py-2 border">Player 2</th>
-            <th class="px-4 py-2 border">Player 3</th>
-            <th class="px-4 py-2 border">Player 4</th>
-            <th class="px-4 py-2 border">Team handicap</th>
+            <th class="px-4 py-3 border">Tee Time</th>
+            <th class="px-4 py-3 border">Hole</th>
+            <th class="px-4 py-3 border">Captain</th>
+            <th class="px-4 py-3 border">Team Handicap</th>
           </tr>
         </thead>
-        <tbody>
-          <tr class="border-b hover:bg-gray-50">
-  <td class="px-4 py-2 border">09:00 AM</td>
-  <td class="px-4 py-2 border">1</td>
-  <td class="px-4 py-2 border">Mike West</td>
-  <td class="px-4 py-2 border">Jock Crawford</td>
-  <td class="px-4 py-2 border">Al Kinghorn</td>
-  <td class="px-4 py-2 border">Tom Kinghorn</td>
-  <td class="px-4 py-2 border font-semibold">TBC</td>
-</tr>
-<!--<tr class="border-b hover:bg-gray-50">
-  <td class="px-4 py-2 border">8:40 AM</td>
-  <td class="px-4 py-2 border">10</td>
-  <td class="px-4 py-2 border">Rex</td>
-  <td class="px-4 py-2 border">Duke</td>
-  <td class="px-4 py-2 border">Isla</td>
-  <td class="px-4 py-2 border">Cleo</td>
-  <td class="px-4 py-2 border font-semibold">22.7</td>
-</tr>
-<tr class="border-b hover:bg-gray-50">
-  <td class="px-4 py-2 border">9:20 AM</td>
-  <td class="px-4 py-2 border">1</td>
-  <td class="px-4 py-2 border">Dan</td>
-  <td class="px-4 py-2 border">Sara</td>
-  <td class="px-4 py-2 border">Bob</td>
-  <td class="px-4 py-2 border">Alice</td>
-  <td class="px-4 py-2 border font-semibold">21.5</td>
-</tr>
-<!-- Remaining 29 rows truncated for space -->
+        <tbody id="tee-times-body">
+          <tr><td colspan="4" class="px-4 py-6 text-center">Loading tee times…</td></tr>
+        </tbody>
+      </table>
+    </div>
 
-          <!-- 28 dummy rows will be inserted here -->
+    <p id="last-updated" class="text-xs text-gray-500 mt-3 text-right"></p>
+  </main>
 
+  <!-- Data loader -->
+  <script>
+    // Google Sheet details (same doc as before, but keep your gid/tab the same)
+    const SHEET_ID = '1tzYsidqOyoAhSh0HQ-gPQ3vGKA-DK-bt';
+    const GID = '1431682354'; // the tab you’re using
+    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`;
+
+    const tbody = document.getElementById('tee-times-body');
+    const searchInput = document.getElementById('search');
+    const holeFilter = document.getElementById('holeFilter');
+    const lastUpdated = document.getElementById('last-updated');
+
+    let rows = [];
+    let filtered = [];
+
+    function render(data) {
+      tbody.innerHTML = '';
+      if (!data.length) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No results.</td></tr>`;
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      data.forEach(r => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b hover:bg-gray-50';
+        tr.innerHTML = `
+          <td class="px-4 py-2 border">${r['Time'] || ''}</td>
+          <td class="px-4 py-2 border">${r['Hole'] || ''}</td>
+          <td class="px-4 py-2 border">${r['Player 1'] || ''}</td> <!-- displayed as Captain -->
+          <td class="px-4 py-2 border font-semibold">${r['Team Handicap'] || ''}</td>
+        `;
+        frag.appendChild(tr);
+      });
+      tbody.appendChild(frag);
+    }
+
+    function applyFilters() {
+      const q = (searchInput.value || '').toLowerCase().trim();
+      const hole = holeFilter.value;
+      filtered = rows.filter(r => {
+        const holeOk = !hole || (String(r['Hole']).trim() === hole);
+        if (!q) return holeOk;
+        const hay = [r['Player 1'], r['Time'], r['Team Handicap']].join(' ').toLowerCase();
+        return holeOk && hay.includes(q);
+      });
+      render(filtered);
+    }
+
+    async function loadCsv() {
+      try {
+        const resp = await fetch(CSV_URL, { cache: 'no-store' });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const text = await resp.text();
+        const parsed = Papa.parse(text, { header: true, skipEmptyLines: true });
+        rows = parsed.data;
+
+        // Sort by time if "9:10 AM" style
+        rows.sort((a, b) => {
+          const mins = s => {
+            if (!s) return 0;
+            const m = s.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+            if (!m) return 0;
+            let hh = parseInt(m[1], 10), mm = parseInt(m[2], 10);
+            const ap = m[3].toUpperCase();
+            if (ap === 'PM' && hh !== 12) hh += 12;
+            if (ap === 'AM' && hh === 12) hh = 0;
+            return hh*60 + mm;
+          };
+          return mins(a['Time']) - mins(b['Time']);
+        });
+
+        applyFilters();
+        lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
+      } catch (err) {
+        console.error(err);
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-600">Could not load tee times. Check sheet sharing & headers.</td></tr>`;
+      }
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    holeFilter.addEventListener('change', applyFilters);
+    loadCsv();
+  </script>
+</body>
+</html>
