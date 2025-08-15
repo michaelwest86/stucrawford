@@ -15,7 +15,7 @@
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
         <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
-        <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
       </a>
       <nav class="hidden md:flex space-x-6">
         <a href="tee-times.html" class="hover:text-green-700 font-semibold">Tee Times</a>
@@ -59,7 +59,7 @@
         <thead class="bg-gray-100 text-xs uppercase tracking-wide border-b border-gray-200">
           <tr>
             <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Tee Time</th>
-            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r min-w-[80px]">Hole</th>
+            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r min-w-[100px]">Hole</th>
             <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Captain</th>
             <th class="px-2 sm:px-3 py-2 sm:py-3 text-center w-[90px]">Team Handicap</th>
           </tr>
@@ -95,7 +95,7 @@
     }
 
     function holeBadge(hole) {
-      const base = "px-2 py-1 rounded-full text-xs font-semibold";
+      const base = "px-2 py-0.5 rounded-full text-[11px] font-semibold";
       if (String(hole) === "1") {
         return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
       } else if (String(hole) === "10") {
