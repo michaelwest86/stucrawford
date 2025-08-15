@@ -15,7 +15,7 @@
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
         <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
-        <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
       </a>
       <nav class="hidden md:flex space-x-6">
         <a href="tee-times.html" class="hover:text-green-700 font-semibold">Tee Times</a>
@@ -24,114 +24,5 @@
       </nav>
       <button id="menu-btn" class="md:hidden focus:outline-none" aria-label="Open menu">
         <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
-    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
-      <a href="tee-times.html" class="block hover:text-green-700 font-semibold">Tee Times</a>
-      <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
-      <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
-    </div>
-    <script>
-      document.getElementById('menu-btn').addEventListener('click', () => {
-        document.getElementById('mobile-menu').classList.toggle('hidden');
-      });
-    </script>
-  </header>
-
-  <!-- Main -->
-  <main class="max-w-6xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-2">Tee Times</h1>
-    <p class="text-center mb-6 text-gray-600">
-      Live schedule including starting hole and overall team handicap.
-    </p>
-
-    <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
-      <table class="w-full text-sm text-left text-gray-700">
-        <thead class="bg-gray-100 text-xs uppercase tracking-wide border-b border-gray-200">
-          <tr>
-            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Tee Time</th>
-            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Hole</th>
-            <th class="px-3 sm:px-4 py-2 sm:py-3 border-r">Captain</th>
-            <th class="px-3 sm:px-4 py-2 sm:py-3 text-center">Team Handicap</th>
-          </tr>
-        </thead>
-        <tbody id="tee-times-body" class="divide-y divide-gray-100">
-          <tr>
-            <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-              Loading tee times…
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p id="last-updated" class="text-xs text-gray-500 mt-3 text-right"></p>
-  </main>
-
-  <!-- Data loader -->
-  <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
-    const tbody = document.getElementById('tee-times-body');
-    const lastUpdated = document.getElementById('last-updated');
-
-    function toMins(s) {
-      const m = String(s || '').match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-      if (!m) return 0;
-      let h = +m[1], mm = +m[2]; const ap = m[3].toUpperCase();
-      if (ap === 'PM' && h !== 12) h += 12;
-      if (ap === 'AM' && h === 12) h = 0;
-      return h * 60 + mm;
-    }
-
-    function holeBadge(hole) {
-      const base = "px-2 py-1 rounded-full text-xs font-semibold";
-      if (String(hole) === "1") {
-        return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
-      } else if (String(hole) === "10") {
-        return `<span class="${base} bg-blue-100 text-blue-800">Hole 10</span>`;
-      }
-      return hole || '';
-    }
-
-    function render(data) {
-      tbody.innerHTML = '';
-      if (!data.length) {
-        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No tee times found.</td></tr>`;
-        return;
-      }
-      const frag = document.createDocumentFragment();
-      for (const r of data) {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-gray-50';
-        tr.innerHTML = `
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${r['Time'] || ''}</td>
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${holeBadge(r['Hole'])}</td>
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r font-medium text-gray-900">${r['Player 1'] || ''}</td>
-          <td class="px-3 sm:px-4 py-2 sm:py-3 font-semibold text-green-700 text-center">${r['Team Handicap'] || ''}</td>
-        `;
-        frag.appendChild(tr);
-      }
-      tbody.appendChild(frag);
-    }
-
-    fetch(CSV_URL, { cache: 'no-store' })
-      .then(r => r.text())
-      .then(csv => {
-        const parsed = Papa.parse(csv, { header: true });
-        let rows = parsed.data.filter(r => r['Time']);
-        rows.sort((a, b) => toMins(a['Time']) - toMins(b['Time']));
-        render(rows);
-        lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString();
-      })
-      .catch(err => {
-        console.error(err);
-        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Failed to load data.</td></tr>`;
-      });
-  </script>
-
-</body>
-</html>
+             v
 
