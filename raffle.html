@@ -10,96 +10,89 @@
 
   <!-- Header (same as other pages) -->
   <header class="bg-white border-b sticky top-0 z-50">
-  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-    
-    <!-- Logo + Title -->
-    <a href="index.html" class="flex items-center space-x-3">
-      <img src="logo.png" alt="Golf Logo" class="h-24 w-auto" />
-      <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
-    </a>
-
-    <!-- Desktop Nav -->
-    <nav class="hidden md:flex space-x-6">
-      <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
-      <a href="sponsors.html" class="hover:text-green-700">Sponsors</a>
-      <a href="raffle.html" class="hover:text-green-700">Raffle</a>
-    </nav>
-
-    <!-- Mobile Toggle -->
-    <button id="menu-btn" class="md:hidden focus:outline-none">
-      <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
-           viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-    </button>
-  </div>
-
-  <!-- Mobile Nav -->
-  <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
-    <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
-    <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
-    <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
-  </div>
-
-  <script>
-    const btn = document.getElementById('menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-    });
-  </script>
-</header>
-
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Stu Crawford Invitational 2025</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        font-family: 'Inter', sans-serif;
-      }
-      h1, h2 {
-        font-family: 'Playfair Display', serif;
-      }
-    </style>
-  </head>
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Golf Logo" class="h-10 w-auto" />
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
+        <a href="sponsors.html" class="hover:text-green-700">Sponsors</a>
+        <a href="raffle.html" class="hover:text-green-700 font-semibold">Raffle</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none" aria-label="Open menu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+      <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
+      <a href="sponsors.html" class="block hover:text-green-700">Sponsors</a>
+      <a href="raffle.html" class="block hover:text-green-700 font-semibold">Raffle</a>
+    </div>
+    <script>
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+    </script>
+  </header>
 
   <!-- Main Content -->
   <main class="max-w-3xl mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold text-center mb-6">The Famous Raffle.</h1>
+    <h1 class="text-4xl font-bold text-center mb-6">Charity Raffle</h1>
     <p class="text-center text-lg mb-8 text-gray-700">
-      Help us raise even more by entering the raffle! All proceeds go to our chosen charity. Tickets are just <strong>£5 each</strong>.
+      Help us raise even more by entering the raffle! All proceeds go to our chosen cause.
+      Tickets are just <strong>£5 each</strong>.
     </p>
 
     <!-- Ko-fi Button -->
     <div class="text-center mb-10">
-      <!-- Replace with your own Ko-fi link below -->
-      <a href="https://ko-fi.com/stucrawford" target="_blank" rel="noopener"
+      <!-- Replace with your live Ko-fi product or page link -->
+      <a href="https://www.eventbrite.co.uk/e/the-stu-crawford-invitational-charity-night-2025-tickets-1566438161709?aff=oddtdtcreator" target="_blank" rel="noopener"
          class="inline-block bg-orange-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-orange-600 transition">
-        🎟️ Buy Raffle Tickets
+        🎟️ Buy Raffle Tickets on Eventbrite
       </a>
+      <p class="mt-2 text-sm text-gray-500">Your purchase will open securely on Eventbrite in a new tab.</p>
     </div>
 
     <!-- Prize List -->
     <section class="mb-12">
-      <h2 class="text-2xl font-semibold mb-4 text-center">Top Prizes</h2>
-      <ul class="space-y-3 text-lg list-disc list-inside text-gray-800">
-        <li>⛳ 4-Ball at Ganton Golf Club</li>
-        <li>🏌️‍♂️ Custom-fit Driver</li>
-        <li>🍷 Luxury Wine Hamper</li>
-        <li>🎟️ Theatre Tickets for Two</li>
-        <li>🛍️ £100 Local Restaurant Voucher</li>
-        <li>🎁 Plus many more great prizes on the day!</li>
+      <h2 class="text-2xl font-semibold mb-4 text-center">Prizes</h2>
+      <ul class="space-y-3 text-lg text-gray-800">
+        <li>✈️ 2 × Jet2.com flights</li>
+        <li>📱 Samsung Galaxy Tablet A9</li>
+        <li>⚽👕 Gabriel Jesus signed Arsenal shirt</li>
+        <li>🐎🎫 2 × Grandstand tickets for St Leger Day (Doncaster Races)</li>
+        <li>🍽️🇮🇳 Prashad Taster Menu for 2</li>
+        <li>🏌️‍♂️🎯 ‘Range Night’ voucher (Rudding Park)</li>
+        <li>🍺🎟️ Hop Cavern Beer Hamper & 2 × Northern Monk Brewery tickets (Leeds)</li>
+        <li>🔊 Amazon Echo Dot (5th Gen)</li>
+        <li>🍫🎁 Hotel Chocolat Luxury Hamper</li>
+        <li>🌱 1 bag of Premium Grass Seed</li>
+        <li>🥂🍳 2 × Bottomless Brunch @ Bishops</li>
+        <li>🍺🏭🎟️ 2 × Theakston Brewery Tour (Masham) & 2 × Leeds Refectory (Black Sheep) tickets</li>
+        <li>🌸🏊 Family pass to Burnby Hall & Gardens & 1 month Leisure Centre membership</li>
+        <li>🥃🎟️ 4 × Tickets to Spirit of Yorkshire Distillery</li>
+        <li>🧺🍪 Cartwright & Butler ‘Bishopdale Crate’ Hamper</li>
+        <li>📸 £50 Photoshoot from Moments by ZD</li>
+        <li>🔊 JBL GO 4 Ultra-Portable Bluetooth Speaker</li>
+        <li>💆‍♀️ ByChloBeauty – treatment of choice</li>
+        <li>🕯️ Lux Wax Emporium Hamper</li>
+        <li>🐷🎟️ 2 × Piglets Adventure Farm tickets</li>
+        <li>💄 SilkSkin by Poppy</li>
+        <li>☕🍰 Paradise Tea Rooms Voucher</li>
+        <li>💪💆‍♂️ Injury review or Sports Massage – Kirstie Nicholls</li>
+        <li>⚽🎟️ Scunthorpe United matchday ticket</li>
+        <li>🍺 Wold Top Brewery Voucher</li>
+        <li>⛳️ 4-Ball at KP Club</li>
+        <li>🧘‍♀️ 3 × Free Pilates sessions @ Groove (Howden)</li>
       </ul>
     </section>
 
     <p class="text-sm text-center text-gray-500">
-      Raffle will be drawn during the evening dinner. Winners will be announced live and posted online afterwards.
+      The raffle will be drawn during the evening dinner. Winners will be announced live and posted online afterwards.
     </p>
   </main>
 </body>
