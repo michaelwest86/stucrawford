@@ -5,8 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tee Times – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse for CSV parsing -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
 
@@ -45,17 +43,8 @@
   <main class="max-w-6xl mx-auto px-6 py-12">
     <h1 class="text-4xl font-bold text-center mb-2">Tee Times</h1>
     <p class="text-center mb-6 text-gray-600">
-      Live schedule including starting hole and overall team handicap.
+      Here are the confirmed tee times for the Charity Golf Day.
     </p>
-
-    <!-- Search -->
-    <div class="mb-4">
-      <input id="search" type="text" placeholder="Search by name, hole, or time..."
-        class="w-full md:w-1/2 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"/>
-    </div>
-
-    <!-- Status / diagnostics -->
-    <div id="status" class="text-xs text-gray-500 mb-3"></div>
 
     <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
       <table class="w-full text-sm text-left text-gray-700">
@@ -67,112 +56,42 @@
             <th class="px-2 sm:px-3 py-2 sm:py-3 text-center w-[90px]">Team Handicap</th>
           </tr>
         </thead>
-        <tbody id="tee-times-body" class="divide-y divide-gray-100">
-          <tr>
-            <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-              Loading tee times…
-            </td>
-          </tr>
+        <tbody class="divide-y divide-gray-100">
+          <!-- 31 rows with zebra striping -->
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:00 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Jock Crawford</td><td class="px-2 py-2 font-semibold text-green-700 text-center">12</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:00 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Keir Vause</td><td class="px-2 py-2 font-semibold text-green-700 text-center">10</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:07 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Sean Kitwood</td><td class="px-2 py-2 font-semibold text-green-700 text-center">9</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:07 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Lew Franks</td><td class="px-2 py-2 font-semibold text-green-700 text-center">11</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:14 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Duncan Carmichael</td><td class="px-2 py-2 font-semibold text-green-700 text-center">6</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:14 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Mike Stannard</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:21 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Ash Pheasant</td><td class="px-2 py-2 font-semibold text-green-700 text-center">6</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:21 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Dave Risebury</td><td class="px-2 py-2 font-semibold text-green-700 text-center">12</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:28 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Tony Challenger</td><td class="px-2 py-2 font-semibold text-green-700 text-center">11</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:28 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Liam Mitchell</td><td class="px-2 py-2 font-semibold text-green-700 text-center">4</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:35 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Stephen Mounser</td><td class="px-2 py-2 font-semibold text-green-700 text-center">10</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:35 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Wayne Strutt</td><td class="px-2 py-2 font-semibold text-green-700 text-center">3</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:42 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Mike West Snr</td><td class="px-2 py-2 font-semibold text-green-700 text-center">10</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:42 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Ben Clayton</td><td class="px-2 py-2 font-semibold text-green-700 text-center">3</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:49 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Geoff Eastwood</td><td class="px-2 py-2 font-semibold text-green-700 text-center">8</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:49 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Wayne Clayton</td><td class="px-2 py-2 font-semibold text-green-700 text-center">12</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:56 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Neil Devlin</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">9:56 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Steve Cawthorne</td><td class="px-2 py-2 font-semibold text-green-700 text-center">8</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:03 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Louis Greaves</td><td class="px-2 py-2 font-semibold text-green-700 text-center">10</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:03 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Jimmy Campbell</td><td class="px-2 py-2 font-semibold text-green-700 text-center">8</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:10 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Mark Hall</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:10 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Corey Winton</td><td class="px-2 py-2 font-semibold text-green-700 text-center">7</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:17 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Adam Heywood</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:17 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Andy Gowthorpe</td><td class="px-2 py-2 font-semibold text-green-700 text-center">8</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:24 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Leon Sheldon</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:24 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">James Adkins</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:31 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Josh Clarkson</td><td class="px-2 py-2 font-semibold text-green-700 text-center">13</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:31 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Barry Westbury</td><td class="px-2 py-2 font-semibold text-green-700 text-center">8</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:38 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Harry McMullen</td><td class="px-2 py-2 font-semibold text-green-700 text-center">12</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:38 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-blue-100 text-blue-800">Hole 10</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">John Erwin</td><td class="px-2 py-2 font-semibold text-green-700 text-center">7</td></tr>
+          <tr class="odd:bg-gray-50 hover:bg-gray-100"><td class="px-3 py-2 border-r">10:45 AM</td><td class="px-3 py-2 border-r"><span class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-green-100 text-green-800">Hole 1</span></td><td class="px-3 py-2 border-r font-medium text-gray-900">Liam Holt</td><td class="px-2 py-2 font-semibold text-green-700 text-center">9</td></tr>
         </tbody>
       </table>
     </div>
-
-    <p id="last-updated" class="text-xs text-gray-500 mt-3 text-right"></p>
   </main>
-
-  <!-- Data loader -->
-  <script>
-    // Your (fresh) Publish-to-web CSV link:
-    const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
-    // Add a cache-busting param so we never get a stale response:
-    const CSV_URL = `${CSV_URL_BASE}&cb=${Date.now()}`;
-
-    const tbody = document.getElementById('tee-times-body');
-    const lastUpdated = document.getElementById('last-updated');
-    const statusEl = document.getElementById('status');
-    const searchInput = document.getElementById('search');
-    let allRows = [];
-
-    function toMins(s) {
-      const m = String(s || '').match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-      if (!m) return 0;
-      let h = +m[1], mm = +m[2]; const ap = m[3].toUpperCase();
-      if (ap === 'PM' && h !== 12) h += 12;
-      if (ap === 'AM' && h === 12) h = 0;
-      return h * 60 + mm;
-    }
-
-    function holeBadge(hole) {
-      const base = "px-2 py-0.5 rounded-full text-[11px] font-semibold";
-      if (String(hole) === "1")  return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
-      if (String(hole) === "10") return `<span class="${base} bg-blue-100 text-blue-800">Hole 10</span>`;
-      return hole || '';
-    }
-
-    function render(data) {
-      tbody.innerHTML = '';
-      if (!data.length) {
-        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-gray-500">No tee times found.</td></tr>`;
-        return;
-      }
-      const frag = document.createDocumentFragment();
-      for (const r of data) {
-        const tr = document.createElement('tr');
-        tr.className = 'hover:bg-gray-50';
-        tr.innerHTML = `
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${r['Time'] || ''}</td>
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r">${holeBadge(r['Hole'])}</td>
-          <td class="px-3 sm:px-4 py-2 sm:py-3 border-r font-medium text-gray-900">${r['Player 1'] || ''}</td>
-          <td class="px-2 sm:px-3 py-2 sm:py-3 font-semibold text-green-700 text-center">${r['Team Handicap'] || ''}</td>
-        `;
-        frag.appendChild(tr);
-      }
-      tbody.appendChild(frag);
-    }
-
-    function filterTable() {
-      const term = searchInput.value.toLowerCase();
-      const filtered = allRows.filter(r =>
-        (r['Time'] || '').toLowerCase().includes(term) ||
-        (r['Hole'] || '').toLowerCase().includes(term) ||
-        (r['Player 1'] || '').toLowerCase().includes(term) ||
-        (r['Team Handicap'] || '').toLowerCase().includes(term)
-      );
-      render(filtered);
-    }
-
-    async function load() {
-      statusEl.textContent = 'Fetching: ' + CSV_URL_BASE;
-      try {
-        const res = await fetch(CSV_URL, { cache: 'no-store' });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const csv = await res.text();
-
-        const parsed = Papa.parse(csv, { header: true });
-        allRows = (parsed.data || []).filter(r => r['Time']);
-        // header sanity check
-        const sample = allRows[0] || {};
-        const needed = ['Time','Hole','Player 1','Team Handicap'];
-        const missing = needed.filter(k => !(k in sample));
-        if (missing.length) {
-          statusEl.innerHTML = `<span class="text-red-600">Warning:</span> Missing headers: ${missing.join(', ')} (check row 1).`;
-        } else {
-          statusEl.textContent = `Loaded ${allRows.length} rows.`;
-        }
-
-        allRows.sort((a, b) => toMins(a['Time']) - toMins(b['Time']));
-        render(allRows);
-        lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString();
-      } catch (e) {
-        console.error(e);
-        statusEl.innerHTML = `<span class="text-red-600">Fetch failed:</span> ${e.message}. If you re-published the sheet, the link may have rotated — replace CSV_URL_BASE.`;
-        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Failed to load data.</td></tr>`;
-      }
-    }
-
-    searchInput.addEventListener('input', filterTable);
-    load();
-  </script>
-
 </body>
 </html>
