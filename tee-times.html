@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tee Times – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- PapaParse for CSV parsing -->
+  <!-- CSV parser -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
@@ -15,7 +15,7 @@
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
       <a href="index.html" class="flex items-center space-x-3">
         <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
-        <span class="text-xl font-bold tracking-tight">The Stu Crawford Invitational</span>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
       </a>
       <nav class="hidden md:flex space-x-6">
         <a href="tee-times.html" class="hover:text-green-700 font-semibold">Tee Times</a>
@@ -48,11 +48,14 @@
       Live schedule including starting hole and overall team handicap.
     </p>
 
-    <!-- Search box -->
+    <!-- Search -->
     <div class="mb-4">
       <input id="search" type="text" placeholder="Search by name, hole, or time..."
         class="w-full md:w-1/2 px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500"/>
     </div>
+
+    <!-- Status / diagnostics -->
+    <div id="status" class="text-xs text-gray-500 mb-3"></div>
 
     <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
       <table class="w-full text-sm text-left text-gray-700">
@@ -79,9 +82,13 @@
 
   <!-- Data loader -->
   <script>
+    // 👉 If you re-publish the sheet, this URL can change.
+    // Paste the current "Publish to web" CSV link here:
     const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
+
     const tbody = document.getElementById('tee-times-body');
     const lastUpdated = document.getElementById('last-updated');
+    const statusEl = document.getElementById('status');
     const searchInput = document.getElementById('search');
     let allRows = [];
 
@@ -96,11 +103,8 @@
 
     function holeBadge(hole) {
       const base = "px-2 py-0.5 rounded-full text-[11px] font-semibold";
-      if (String(hole) === "1") {
-        return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
-      } else if (String(hole) === "10") {
-        return `<span class="${base} bg-blue-100 text-blue-800">Hole 10</span>`;
-      }
+      if (String(hole) === "1")  return `<span class="${base} bg-green-100 text-green-800">Hole 1</span>`;
+      if (String(hole) === "10") return `<span class="${base} bg-blue-100 text-blue-800">Hole 10</span>`;
       return hole || '';
     }
 
@@ -127,7 +131,7 @@
 
     function filterTable() {
       const term = searchInput.value.toLowerCase();
-      const filtered = allRows.filter(r => 
+      const filtered = allRows.filter(r =>
         (r['Time'] || '').toLowerCase().includes(term) ||
         (r['Hole'] || '').toLowerCase().includes(term) ||
         (r['Player 1'] || '').toLowerCase().includes(term) ||
@@ -136,22 +140,40 @@
       render(filtered);
     }
 
-    fetch(CSV_URL, { cache: 'no-store' })
-      .then(r => r.text())
-      .then(csv => {
+    async function load() {
+      statusEl.textContent = 'Fetching: ' + CSV_URL;
+      try {
+        const res = await fetch(CSV_URL, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const csv = await res.text();
+
         const parsed = Papa.parse(csv, { header: true });
-        allRows = parsed.data.filter(r => r['Time']);
+        allRows = (parsed.data || []).filter(r => r['Time']);
+        // Header check (helps spot a changed first row)
+        const sample = allRows[0] || {};
+        const required = ['Time','Hole','Player 1','Team Handicap'];
+        const missing = required.filter(k => !(k in sample));
+        if (missing.length) {
+          statusEl.innerHTML = `<span class="text-red-600">Warning:</span> Missing headers: ${missing.join(', ')}. Check row 1 in your sheet.`;
+        } else {
+          statusEl.textContent = `Loaded ${allRows.length} rows.`;
+        }
+
         allRows.sort((a, b) => toMins(a['Time']) - toMins(b['Time']));
         render(allRows);
         lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString();
-      })
-      .catch(err => {
-        console.error(err);
+      } catch (e) {
+        console.error(e);
+        statusEl.innerHTML = `<span class="text-red-600">Fetch failed:</span> ${e.message}. ` +
+          `If you recently re-published the sheet, copy the fresh CSV link and replace CSV_URL in this page.`;
         tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Failed to load data.</td></tr>`;
-      });
+      }
+    }
 
     searchInput.addEventListener('input', filterTable);
+    load();
   </script>
 
 </body>
 </html>
+
