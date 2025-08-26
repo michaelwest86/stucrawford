@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tee Times – Charity Golf Day</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- CSV parser -->
+  <!-- PapaParse for CSV parsing -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 </head>
 <body class="bg-white text-gray-800">
@@ -82,9 +82,10 @@
 
   <!-- Data loader -->
   <script>
-    // 👉 If you re-publish the sheet, this URL can change.
-    // Paste the current "Publish to web" CSV link here:
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
+    // Your (fresh) Publish-to-web CSV link:
+    const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSSbDxvnbZVZxVI7m6c06W3964FARBY-wvYTvbLMPpGvDMlAcuaQU90BST0QLJa4w/pub?gid=88495620&single=true&output=csv';
+    // Add a cache-busting param so we never get a stale response:
+    const CSV_URL = `${CSV_URL_BASE}&cb=${Date.now()}`;
 
     const tbody = document.getElementById('tee-times-body');
     const lastUpdated = document.getElementById('last-updated');
@@ -141,7 +142,7 @@
     }
 
     async function load() {
-      statusEl.textContent = 'Fetching: ' + CSV_URL;
+      statusEl.textContent = 'Fetching: ' + CSV_URL_BASE;
       try {
         const res = await fetch(CSV_URL, { cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -149,12 +150,12 @@
 
         const parsed = Papa.parse(csv, { header: true });
         allRows = (parsed.data || []).filter(r => r['Time']);
-        // Header check (helps spot a changed first row)
+        // header sanity check
         const sample = allRows[0] || {};
-        const required = ['Time','Hole','Player 1','Team Handicap'];
-        const missing = required.filter(k => !(k in sample));
+        const needed = ['Time','Hole','Player 1','Team Handicap'];
+        const missing = needed.filter(k => !(k in sample));
         if (missing.length) {
-          statusEl.innerHTML = `<span class="text-red-600">Warning:</span> Missing headers: ${missing.join(', ')}. Check row 1 in your sheet.`;
+          statusEl.innerHTML = `<span class="text-red-600">Warning:</span> Missing headers: ${missing.join(', ')} (check row 1).`;
         } else {
           statusEl.textContent = `Loaded ${allRows.length} rows.`;
         }
@@ -164,8 +165,7 @@
         lastUpdated.textContent = 'Last updated: ' + new Date().toLocaleString();
       } catch (e) {
         console.error(e);
-        statusEl.innerHTML = `<span class="text-red-600">Fetch failed:</span> ${e.message}. ` +
-          `If you recently re-published the sheet, copy the fresh CSV link and replace CSV_URL in this page.`;
+        statusEl.innerHTML = `<span class="text-red-600">Fetch failed:</span> ${e.message}. If you re-published the sheet, the link may have rotated — replace CSV_URL_BASE.`;
         tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-6 text-center text-red-500">Failed to load data.</td></tr>`;
       }
     }
@@ -176,4 +176,3 @@
 
 </body>
 </html>
-
