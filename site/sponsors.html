@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sponsors – Charity Golf Day</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white border-b sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center space-x-3">
+        <img src="logo.png" alt="Golf Logo" class="h-10 md:h-12 w-auto"/>
+        <span class="text-xl font-bold tracking-tight">Charity Golf Day</span>
+      </a>
+      <nav class="hidden md:flex space-x-6">
+        <a href="tee-times.html" class="hover:text-green-700">Tee Times</a>
+        <a href="sponsors.html" class="hover:text-green-700 font-semibold">Sponsors</a>
+        <a href="raffle.html" class="hover:text-green-700">Raffle</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden focus:outline-none" aria-label="Open menu">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden px-4 pb-4 space-y-2">
+      <a href="tee-times.html" class="block hover:text-green-700">Tee Times</a>
+      <a href="sponsors.html" class="block hover:text-green-700 font-semibold">Sponsors</a>
+      <a href="raffle.html" class="block hover:text-green-700">Raffle</a>
+    </div>
+    <script>
+      document.getElementById('menu-btn').addEventListener('click', () => {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+      });
+    </script>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <h1 class="text-4xl font-bold text-center mb-8">Our Sponsors</h1>
+    <p class="text-center mb-12 text-gray-600">
+      A huge thank you to our amazing sponsors for helping make the Charity Golf Day possible.
+    </p>
+
+    <!-- Sponsors Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Sean Kitwood Builders</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Premier Partnerships</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Marritt Electrical Ltd</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Alan Dowding Accountancy</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">The Bitters</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">DCD Plastering</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Party on a Platter by Elza</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Goole Cricket Club</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Helm &amp; Ransome Construction LTD</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Goole United</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">MKM Goole</span>
+      </div>
+      <div class="p-6 border rounded-lg shadow hover:shadow-lg transition">
+        <span class="block font-semibold text-lg">Keir Vause</span>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
