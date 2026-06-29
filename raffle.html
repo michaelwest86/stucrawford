@@ -58,26 +58,44 @@
       Tickets are <strong class="text-gray-800">£5 each</strong> — buy as many as you like.
     </p>
 
-    <!-- Stripe Buy Button -->
-    <div class="border border-gray-200 rounded-xl p-8 text-center">
-      <p class="text-sm text-gray-500 uppercase tracking-widest mb-4 font-semibold">Secure Checkout</p>
+    <!-- Ticket Quantity Selector -->
+    <div class="border border-gray-200 rounded-xl p-8">
+      <p class="text-sm text-gray-500 uppercase tracking-widest mb-6 font-semibold text-center">Choose your tickets</p>
 
-      <!-- TODO: Replace href below with your Stripe Payment Link URL -->
-      <!-- Create one at: https://dashboard.stripe.com/payment-links -->
-      <a
-        href="https://checkout.revolut.com/pay/9a939131-e89d-4c8e-9cc6-015288914200"
-        target="_blank"
-        rel="noopener"
-        class="inline-block bg-black text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-800 transition w-full sm:w-auto"
-      >
-        Buy Raffle Tickets
-      </a>
+      <div class="grid grid-cols-5 gap-3 mb-8">
+        <a href="https://checkout.revolut.com/pay/9a939131-e89d-4c8e-9cc6-015288914200"
+           target="_blank" rel="noopener"
+           class="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-4 hover:border-black hover:bg-gray-50 transition group">
+          <span class="text-2xl font-bold group-hover:text-black">1</span>
+          <span class="text-xs text-gray-400 mt-1">£5</span>
+        </a>
+        <a href="https://checkout.revolut.com/payment-link/8f7c3c41-34fa-4d54-8d3d-9fea405191d1"
+           target="_blank" rel="noopener"
+           class="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-4 hover:border-black hover:bg-gray-50 transition group">
+          <span class="text-2xl font-bold group-hover:text-black">2</span>
+          <span class="text-xs text-gray-400 mt-1">£10</span>
+        </a>
+        <a href="https://checkout.revolut.com/payment-link/8d4d28e3-3477-485b-9124-f6f5e4d837d7"
+           target="_blank" rel="noopener"
+           class="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-4 hover:border-black hover:bg-gray-50 transition group">
+          <span class="text-2xl font-bold group-hover:text-black">3</span>
+          <span class="text-xs text-gray-400 mt-1">£15</span>
+        </a>
+        <a href="https://checkout.revolut.com/payment-link/3cff6712-9958-4feb-ab66-f0e739633d24"
+           target="_blank" rel="noopener"
+           class="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-4 hover:border-black hover:bg-gray-50 transition group">
+          <span class="text-2xl font-bold group-hover:text-black">5</span>
+          <span class="text-xs text-gray-400 mt-1">£25</span>
+        </a>
+        <a href="https://checkout.revolut.com/payment-link/4a574be9-42a2-4567-87eb-fa6491cbf371"
+           target="_blank" rel="noopener"
+           class="flex flex-col items-center justify-center border border-gray-200 rounded-xl py-4 hover:border-black hover:bg-gray-50 transition group">
+          <span class="text-2xl font-bold group-hover:text-black">10</span>
+          <span class="text-xs text-gray-400 mt-1">£50</span>
+        </a>
+      </div>
 
-      <p class="mt-6 text-xs text-gray-400">Apple Pay &amp; card accepted · Powered by Revolut</p>
-
-      <p class="mt-4 text-xs text-gray-400">
-        Payments processed securely by Stripe. The raffle draw takes place during the evening dinner.
-      </p>
+      <p class="text-center text-xs text-gray-400">Apple Pay &amp; card accepted · Powered by Revolut</p>
     </div>
 
   </main>
@@ -89,3 +107,4 @@
 
 </body>
 </html>
+
